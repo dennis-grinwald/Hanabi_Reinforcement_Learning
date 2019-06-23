@@ -1,0 +1,4 @@
+/* possible reward functions =  standard, ones_first */
+{
+  "reward_function": "standard"
+}
