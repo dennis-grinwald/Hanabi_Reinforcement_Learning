@@ -1,1 +1,5 @@
 /agents/trained_models/*
+*.pyc
+__pycache__/
+agents/__pycache__/
+agents/rainbow/__pycache__/
