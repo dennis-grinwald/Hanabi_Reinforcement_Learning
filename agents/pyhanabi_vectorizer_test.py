@@ -105,9 +105,6 @@ if __name__=="__main__":
         # print(f"REAL MOVE TO BE TAKEN BY AGENT {current_player}: {env.game.get_move(action)}")
         # print("====================\n")
 
-        if step_number == 8:
-            sys.exit(0)
-
         print("\n=====================")
         print(f"SELECTED ACTION THAT WILL BE TAKEN BY PLAYER :{current_player}:")
         print(move_dict)

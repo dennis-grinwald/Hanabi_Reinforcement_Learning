@@ -16,14 +16,50 @@
 from __future__ import absolute_import
 from __future__ import division
 
+import json
+import os
+
 import pyhanabi
 from pyhanabi import color_char_to_idx
-# import reward_funcions
 
 MOVE_TYPES = [_.name for _ in pyhanabi.HanabiMoveType]
 
+rewards = None
+with open('/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/reward_functions.json') as rw:
+    rewards = json.load(rw)
+
 #-------------------------------------------------------------------------------
 # Environment API
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# Custom Reward Functions
+#-------------------------------------------------------------------------------
+
+def standard_reward(reward):
+    print("Hi")
+    return reward
+
+def punish_discard(action):
+    type = action.to_dict()["action_type"]
+    if type == "DISCARD":
+        return -1
+    else:
+        return 0
+
+def punish_discard_playable(action, state):
+
+    type = action.to_dict()["action_type"]
+    last_moves = state.move_history()
+    color = last_moves[::-1][1].color()
+    rank = last_moves[::-1][1].rank()
+
+    if type == "DISCARD" and state.card_playable_on_fireworks(color, rank):
+        return -1
+    else:
+        return 0
+#-------------------------------------------------------------------------------
+#
 #-------------------------------------------------------------------------------
 
 
@@ -344,9 +380,11 @@ class HanabiEnv(Environment):
     if isinstance(action, dict):
       # Convert dict action HanabiMove
       action = self._build_move(action)
+
     elif isinstance(action, int):
       # Convert int action into a Hanabi move.
       action = self.game.get_move(action)
+
     else:
       raise ValueError("Expected action as dict or int, got: {}".format(
           action))
@@ -363,23 +401,39 @@ class HanabiEnv(Environment):
 
     # Reward is score differential. May be large and negative at game end.
 
-    ### CUSTOM REWARDS
-    # reward = getattr(rewards["reward_function"])
+    # Custom rewards so far:
+    # 1. punish throwing off cards aka "punish_discard", changeable in reward_function.json
+    # 2. punish throwing off playable cards "punish playable discard", changeable in reward_function.json
+
+    reward_func = globals()[rewards["reward_function"]]
 
     # original reward
-    reward = self.state.score() - last_score
+    raw_reward = self.state.score() - last_score
+
+    if rewards["reward_function"] == "punish_discard":
+
+        if self.state.deck_size() < rewards["deck_limit"]:
+            reward = raw_reward + reward_func(action)
+            # print("\n===================")
+            # print(f"CUSTOMIZED REWARD: {reward} AT REMAINING DECK SIZE: {self.state.deck_size()}")
+            # print("===================\n")
+        else:
+            reward = raw_reward
+
+    elif rewards["reward_function"] == "punish_discard_playable":
+        if self.state.deck_size() < rewards["deck_limit"]:
+            reward = raw_reward + reward_func(action, self.state)
+            # print("\n===================")
+            # print(f"CUSTOMIZED REWARD: {reward} AT REMAINING DECK SIZE: {self.state.deck_size()}")
+            # print("===================\n")
+        else:
+            reward = raw_reward
+    else:
+        reward = raw_reward
 
     info = {}
 
     return (observation, reward, done, info)
-
-  # FIRST REWARD:
-  # ENCOURAGE PLAYING ALL 1's AT THE BEGINNING
-  # def custom_reward(self):
-  #
-  #     hanabi =
-  #
-  #     return reward
 
   def _make_observation_all_players(self):
     """Make observation for all players.

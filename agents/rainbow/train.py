@@ -81,6 +81,8 @@ def launch_experiment():
   obs_stacker = run_experiment.create_obs_stacker(environment)
   agent = run_experiment.create_agent(environment, obs_stacker)
 
+  print(environment.game.num_players())
+
   checkpoint_dir = '{}/checkpoints'.format(FLAGS.base_dir)
   start_iteration, experiment_checkpointer = (
       run_experiment.initialize_checkpointing(agent,

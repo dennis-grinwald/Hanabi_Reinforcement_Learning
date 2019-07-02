@@ -38,8 +38,8 @@ class RLPlayer(object):
         #self.base_dir = "/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/agents/trained_models/rainbow_test"
         #self.base_dir = "/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/agents/trained_models/rainbow_10kit"
 
-        #self.base_dir = "/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/agents/trained_models/rainbow_10kit"
-        self.base_dir = "/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/agents/trained_models/"
+        self.base_dir = "/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/agents/trained_models/rainbow_10kit"
+        #self.base_dir = "/home/dg/Projects/RL/Hanabi/NIP_Hanabi_2019/agents/trained_models/"
 
         #self.base_dir = "/home/grinwald/Projects/TUB/NIP_Hanabi_2019/agents/trained_models/rainbow_10kit"
         self.experiment_logger = logger.Logger('{}/logs'.format(self.base_dir))
@@ -76,4 +76,4 @@ class RLPlayer(object):
         # Decode it back to dictionary object
         move_dict = observation["legal_moves"][np.where(np.equal(action,observation["legal_moves_as_int"]))[0][0]]
 
-        return move_dict
+        return action, move_dict

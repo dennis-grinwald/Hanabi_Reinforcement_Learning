@@ -1,4 +1,4 @@
-/* possible reward functions =  standard, ones_first */
 {
-  "reward_function": "standard"
+  "reward_function": "punish_discard_playable",
+  "deck_limit": 10
 }

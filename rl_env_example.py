@@ -53,8 +53,8 @@ class Runner(object):
           else:
             assert action is None
         # Make an environment step.
-        print('Agent: {} action: {}'.format(observation['current_player'],
-                                            current_player_action))
+        # print('Agent: {} action: {}'.format(observation['current_player'],
+        #                                     current_player_action))
         observations, reward, done, unused_info = self.environment.step(
             current_player_action)
         episode_reward += reward
