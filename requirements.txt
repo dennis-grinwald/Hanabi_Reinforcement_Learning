@@ -1,0 +1,10 @@
+torch
+torchvision
+numpy
+sklearn
+scipy
+matplotlib
+absl-py 
+gin-config 
+tensorflow
+cffi
