@@ -1,4 +1,7 @@
 # NIP_Hanabi_2019
+
+![Alt text](resources/poster.pdf?raw=true "")
+
 ## Installation
 In order to get everything up and running please first run the follwing commands:
 ```
