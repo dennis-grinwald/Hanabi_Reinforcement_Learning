@@ -1,6 +1,12 @@
 # NIP_Hanabi_2019
 
-![Alt text](resources/poster.pdf?raw=true "")
+![](resources/intro.png?raw=true "")
+![](resources/results.png?raw=true "")
+
+Please refer to full poster under:
+```
+resources/poster.pdf
+```
 
 ## Installation
 In order to get everything up and running please first run the follwing commands:
